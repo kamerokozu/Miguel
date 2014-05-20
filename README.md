@@ -1,4 +1,3 @@
-Miguel gay
 ======
 <<<<<<< HEAD
 
