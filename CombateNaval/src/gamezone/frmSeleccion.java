@@ -6,6 +6,8 @@
 
 package gamezone;
 
+import java.awt.Color;
+
 /**
  *
  * @author miguel
@@ -17,6 +19,7 @@ public class frmSeleccion extends javax.swing.JFrame {
      */
     public frmSeleccion() {
         initComponents();
+        
     }
 
     /**
@@ -27,37 +30,90 @@ public class frmSeleccion extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbllogo1 = new javax.swing.JLabel();
+        lbllogo2 = new javax.swing.JLabel();
+        btngato = new javax.swing.JButton();
+        btnbuscaminas = new javax.swing.JButton();
+        btncombate = new javax.swing.JButton();
+        btnRank = new javax.swing.JButton();
+        lblfondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gamerzone/gamer.jpg"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(140, 0, 392, 129);
+        lbllogo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gamerzone/gamer.jpg"))); // NOI18N
+        getContentPane().add(lbllogo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gamerzone/videogames.jpg"))); // NOI18N
-        jLabel4.setText("jLabel4");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(0, 180, 240, 220);
+        lbllogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gamerzone/videogames.jpg"))); // NOI18N
+        lbllogo2.setText("jLabel4");
+        getContentPane().add(lbllogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 240, 220));
 
-        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        btngato.setBackground(new java.awt.Color(51, 51, 51));
+        btngato.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btngato.setForeground(new java.awt.Color(0, 255, 204));
+        btngato.setText("Tic-Tac-Toe");
+        btngato.setMaximumSize(new java.awt.Dimension(141, 31));
+        btngato.setMinimumSize(new java.awt.Dimension(141, 31));
+        btngato.setPreferredSize(new java.awt.Dimension(141, 31));
+        btngato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngatoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btngato, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 230, 40));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jLabel5, org.jdesktop.beansbinding.ELProperty.create("${}"), jLabel5, org.jdesktop.beansbinding.BeanProperty.create("background"));
-        bindingGroup.addBinding(binding);
+        btnbuscaminas.setBackground(new java.awt.Color(51, 51, 51));
+        btnbuscaminas.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnbuscaminas.setForeground(new java.awt.Color(102, 102, 255));
+        btnbuscaminas.setText("Buscaminas");
+        btnbuscaminas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscaminasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnbuscaminas, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 213, 230, 40));
 
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(0, 0, 640, 400);
+        btncombate.setBackground(new java.awt.Color(51, 51, 51));
+        btncombate.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btncombate.setForeground(new java.awt.Color(255, 0, 0));
+        btncombate.setText("Combate Naval");
+        btncombate.setMaximumSize(new java.awt.Dimension(141, 31));
+        btncombate.setMinimumSize(new java.awt.Dimension(141, 31));
+        btncombate.setPreferredSize(new java.awt.Dimension(141, 31));
+        btncombate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncombateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btncombate, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 273, 230, 40));
 
-        bindingGroup.bind();
+        btnRank.setBackground(new java.awt.Color(0, 0, 0));
+        btnRank.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnRank.setForeground(new java.awt.Color(204, 0, 204));
+        btnRank.setText("Ranking");
+        getContentPane().add(btnRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 100, 40));
+
+        lblfondo.setBackground(new java.awt.Color(0, 0, 0));
+        lblfondo.setOpaque(true);
+        getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 390));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnbuscaminasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaminasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnbuscaminasActionPerformed
+
+    private void btncombateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncombateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncombateActionPerformed
+
+    private void btngatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngatoActionPerformed
+        //frmTic frmTic1 = new frmTic();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btngatoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -95,9 +151,12 @@ public class frmSeleccion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private javax.swing.JButton btnRank;
+    private javax.swing.JButton btnbuscaminas;
+    private javax.swing.JButton btncombate;
+    private javax.swing.JButton btngato;
+    private javax.swing.JLabel lblfondo;
+    private javax.swing.JLabel lbllogo1;
+    private javax.swing.JLabel lbllogo2;
     // End of variables declaration//GEN-END:variables
 }

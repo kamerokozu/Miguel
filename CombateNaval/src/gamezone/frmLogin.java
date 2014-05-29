@@ -6,19 +6,35 @@
 
 package gamezone;
 
+import java.sql.DriverManager;
+import java.sql.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 /**
  *
  * @author miguel
  */
 public class frmLogin extends javax.swing.JFrame {
 
+    Connection conexion;
     /**
      * Creates new form frmLogin
      */
     public frmLogin() {
         initComponents();
+        inicializaBaseDeDatos();
+        setSize(450,230);
     }
-
+    public void inicializaBaseDeDatos(){
+        try{
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            conexion = DriverManager.
+                    getConnection("jdbc:mysql://"
+                    + "localhost/gamerzone","root","");
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,12 +46,13 @@ public class frmLogin extends javax.swing.JFrame {
 
         lblusuario = new javax.swing.JLabel();
         lblcontrasena = new javax.swing.JLabel();
-        txtusuario = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         btnlogin = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblpregunta = new javax.swing.JLabel();
+        lbllogo = new javax.swing.JLabel();
+        txtContrasena = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         lblusuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -48,32 +65,77 @@ public class frmLogin extends javax.swing.JFrame {
         getContentPane().add(lblcontrasena);
         lblcontrasena.setBounds(21, 69, 87, 22);
 
-        txtusuario.addActionListener(new java.awt.event.ActionListener() {
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtusuarioActionPerformed(evt);
+                txtUsuarioActionPerformed(evt);
             }
         });
-        getContentPane().add(txtusuario);
-        txtusuario.setBounds(118, 31, 151, 20);
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(118, 69, 151, 22);
+        getContentPane().add(txtUsuario);
+        txtUsuario.setBounds(120, 20, 150, 30);
 
         btnlogin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnlogin.setText("Login");
+        btnlogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnloginMouseClicked(evt);
+            }
+        });
         getContentPane().add(btnlogin);
         btnlogin.setBounds(200, 120, 71, 25);
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel1.setText("¿Aun no estas registrado?");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(50, 130, 130, 14);
+        lblpregunta.setForeground(new java.awt.Color(0, 0, 255));
+        lblpregunta.setText("¿Aun no estas registrado?");
+        lblpregunta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblpreguntaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblpregunta);
+        lblpregunta.setBounds(10, 130, 160, 14);
+
+        lbllogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gamerzone/login.png"))); // NOI18N
+        lbllogo.setText("jLabel3");
+        getContentPane().add(lbllogo);
+        lbllogo.setBounds(290, 10, 140, 140);
+        getContentPane().add(txtContrasena);
+        txtContrasena.setBounds(120, 60, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuarioActionPerformed
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtusuarioActionPerformed
+        
+    }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    private void lblpreguntaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblpreguntaMouseClicked
+        frmRegistro frmRegistro1 = new frmRegistro();
+        frmRegistro1.setVisible(true);
+        this.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_lblpreguntaMouseClicked
+
+    private void btnloginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnloginMouseClicked
+       try{
+            PreparedStatement consulta = conexion.prepareStatement(""
+                    + "SELECT * FROM usuarios WHERE gamertag=? AND contrasena=?");             
+            consulta.setString(1,txtUsuario.getText());
+            consulta.setString(2,txtContrasena.getText());
+            ResultSet rs = consulta.executeQuery();
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null, "Bienvenido a la Gamer Zone");
+                frmSeleccion frmSeleccion1 = new frmSeleccion();           
+                frmSeleccion1.setVisible(true);
+                this.dispose();
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario No Existe");
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }                                         
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnloginMouseClicked
 
     /**
      * @param args the command line arguments
@@ -112,10 +174,11 @@ public class frmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnlogin;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblcontrasena;
+    private javax.swing.JLabel lbllogo;
+    private javax.swing.JLabel lblpregunta;
     private javax.swing.JLabel lblusuario;
-    private javax.swing.JTextField txtusuario;
+    private javax.swing.JPasswordField txtContrasena;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
