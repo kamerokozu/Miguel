@@ -4,8 +4,15 @@
  */
 package buscaminas;
 
+import configuracion.configuracion;
+import static configuracion.configuracion.idusuario;
+import gamezone.frmSeleccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -18,6 +25,10 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
     int width=40;
     JButton[][] botones = new JButton[size][size];
     int bombas[][] = new int[size][size];
+    Connection conexion;
+    int idjuego = 3;
+    int derrotas = 1;
+    int victorias =1;
     /**
      * Creates new form ventana
      */
@@ -27,6 +38,7 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
         colocaMinas();
         setSize(600,500);
         panel.setOpaque(false);
+        inicializaBaseDeDatos();
     }
     
     public void colocaMinas(){
@@ -42,7 +54,26 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
         
     }
     
-    
+    public void inicializaBaseDeDatos(){
+        try{
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            conexion = DriverManager.
+                    getConnection("jdbc:mysql://"
+                    + "localhost/gamerzone","root","");
+            PreparedStatement consulta = conexion.prepareStatement(""
+                    + "SELECT * FROM rankings a INNER JOIN  usuarios b ON a.idusuario = b.idusuario "
+                    + "WHERE a.idusuario=?");
+            consulta.setInt(1, configuracion.idusuario);
+            ResultSet rs = consulta.executeQuery();            
+            
+            rs.next();
+            lblGamer.setText(rs.getString("gamertag"));
+          
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
     public int cuentaMinas(int fila, int columna){
        /*
         int minas = 0;
@@ -154,6 +185,7 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
         panel = new javax.swing.JPanel();
         btnSalir = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
+        lblGamer = new javax.swing.JLabel();
         lblfondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -190,6 +222,11 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
         getContentPane().add(lblLogo);
         lblLogo.setBounds(110, 420, 430, 50);
 
+        lblGamer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblGamer.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblGamer);
+        lblGamer.setBounds(420, 10, 140, 30);
+
         lblfondo.setBackground(new java.awt.Color(0, 0, 0));
         lblfondo.setOpaque(true);
         getContentPane().add(lblfondo);
@@ -199,7 +236,8 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
+        frmSeleccion frmSeleccion1 = new frmSeleccion();
+        frmSeleccion1.setVisible(true);
         this.dispose();
 // TODO add your handling code here:
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -240,11 +278,25 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
+    private javax.swing.JLabel lblGamer;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblfondo;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
-
+    public void registrar_derrota(){
+        try{            
+            PreparedStatement consulta = conexion.prepareStatement(""
+            + "INSERT INTO rankings(idusuario,idjuego,derrotas,fecha)"
+            + "VALUES(?,?,?,NOW())");
+            consulta.setInt(1,configuracion.idusuario);
+            consulta.setInt(2,idjuego);
+            consulta.setInt(3, derrotas);
+            
+            
+         }catch(Exception e){
+           e.printStackTrace();  
+          }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         for(int fila=0; fila < size; fila++){
@@ -255,6 +307,7 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
                     if(bombas[fila][columna]==1){
                         JOptionPane.showMessageDialog(this, "Has perdido!!");
                         nuevoJuego();
+                        registrar_derrota();
                     }
                 }               
             }

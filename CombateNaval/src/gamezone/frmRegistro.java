@@ -105,6 +105,11 @@ public class frmRegistro extends javax.swing.JFrame {
                 txtGamerActionPerformed(evt);
             }
         });
+        txtGamer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtGamerKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtGamer);
         txtGamer.setBounds(120, 5, 180, 28);
 
@@ -216,6 +221,26 @@ public class frmRegistro extends javax.swing.JFrame {
     private void txtApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidoPActionPerformed
+
+    private void txtGamerKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGamerKeyTyped
+        try {
+            PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM usuarios WHERE gamertag=?");
+            consulta.setString(1,txtGamer.getText());
+            ResultSet rs = consulta.executeQuery();
+            if(rs.next()){
+                lblconsulta.setText("No Disponible");
+                lblconsulta.setForeground(Color.red);
+                btnRegistrar.setEnabled(false);
+            }else{
+                lblconsulta.setText("Disponible");
+                lblconsulta.setForeground(Color.blue);
+                btnRegistrar.setEnabled(true);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }                         
+// TODO add your handling code here:
+    }//GEN-LAST:event_txtGamerKeyTyped
 
     /**
      * @param args the command line arguments

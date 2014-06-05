@@ -6,6 +6,8 @@
 
 package gamezone;
 
+import configuracion.configuracion;
+import static configuracion.configuracion.idusuario;
 import java.sql.DriverManager;
 import java.sql.*;
 import javax.swing.JFrame;
@@ -126,6 +128,7 @@ public class frmLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Bienvenido a la Gamer Zone");
                 frmSeleccion frmSeleccion1 = new frmSeleccion();           
                 frmSeleccion1.setVisible(true);
+                configuracion.idusuario = rs.getInt("idusuario");
                 this.dispose();
                 
             }else{

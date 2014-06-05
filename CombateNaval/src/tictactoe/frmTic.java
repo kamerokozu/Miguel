@@ -4,6 +4,7 @@
  */
 package juego.del.gato;
 
+import gamezone.frmSeleccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -67,6 +68,7 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         panelTablero = new javax.swing.JPanel();
         btnReinicio = new javax.swing.JButton();
         lbllogo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         lblfondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,7 +101,9 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         getContentPane().add(panelTablero);
         panelTablero.setBounds(40, 70, 240, 230);
 
+        btnReinicio.setBackground(new java.awt.Color(0, 0, 0));
         btnReinicio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnReinicio.setForeground(new java.awt.Color(51, 255, 204));
         btnReinicio.setText("Reinicio");
         btnReinicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -118,6 +122,18 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         lbllogo.setText("jLabel1");
         getContentPane().add(lbllogo);
         lbllogo.setBounds(30, 300, 260, 60);
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(300, 163, 100, 30);
 
         lblfondo.setBackground(new java.awt.Color(0, 0, 0));
         lblfondo.setOpaque(true);
@@ -156,6 +172,13 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReinicioMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        frmSeleccion frmSelection1 = new frmSeleccion();
+        frmSelection1.setVisible(true);
+        this.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -192,6 +215,7 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReinicio;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblJugador;
     private javax.swing.JLabel lblTurno;
     private javax.swing.JLabel lblfondo;
@@ -204,13 +228,13 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     public void actionPerformed(ActionEvent e) {
         JButton boton = (JButton) e.getSource();
         if(turno==1){
-            boton.setText("0");
+            boton.setIcon(new ImageIcon("C:\\Users\\miguel\\Documents\\GitHub\\Miguel\\CombateNaval\\src\\imagenes\\gamerzone\\O.jpg"));
             turno=0;
             lblJugador.setText("Invitado");
         }else{
-            boton.setText("X");
+            boton.setIcon(new ImageIcon("C:\\Users\\miguel\\Documents\\GitHub\\Miguel\\CombateNaval\\src\\imagenes\\gamerzone\\X.jpg"));
             turno=1;
-            lblJugador.setText("Jugador 1");
+            lblJugador.setText("");
             
         }
         

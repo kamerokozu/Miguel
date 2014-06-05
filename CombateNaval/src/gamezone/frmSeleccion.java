@@ -6,7 +6,9 @@
 
 package gamezone;
 
-import java.awt.Color;
+import buscaminas.frmBuscaminas;
+import javax.swing.JOptionPane;
+import tictactoe.frmMenu;
 
 /**
  *
@@ -19,7 +21,7 @@ public class frmSeleccion extends javax.swing.JFrame {
      */
     public frmSeleccion() {
         initComponents();
-        
+        setSize(530,400);
     }
 
     /**
@@ -93,6 +95,11 @@ public class frmSeleccion extends javax.swing.JFrame {
         btnRank.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnRank.setForeground(new java.awt.Color(204, 0, 204));
         btnRank.setText("Ranking");
+        btnRank.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRankActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 100, 40));
 
         lblfondo.setBackground(new java.awt.Color(0, 0, 0));
@@ -103,17 +110,31 @@ public class frmSeleccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnbuscaminasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaminasActionPerformed
-        // TODO add your handling code here:
+        frmBuscaminas frmBuscaminas1 = new frmBuscaminas();
+        frmBuscaminas1.setVisible(true);
+        this.dispose();
+// TODO add your handling code here:
     }//GEN-LAST:event_btnbuscaminasActionPerformed
 
     private void btncombateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncombateActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "El juego se encuentra actualmente fuera de sevicio Disculpe las molestias");
+// TODO add your handling code here:
     }//GEN-LAST:event_btncombateActionPerformed
 
     private void btngatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngatoActionPerformed
-        //frmTic frmTic1 = new frmTic();
+        frmMenu frmMenu1 =new frmMenu();
+        frmMenu1.setVisible(true);
+        this.dispose();
+        
 // TODO add your handling code here:
     }//GEN-LAST:event_btngatoActionPerformed
+
+    private void btnRankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRankActionPerformed
+    frmRanking frmRanking1 = new frmRanking();
+    frmRanking1.setVisible(true);
+    this.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnRankActionPerformed
 
     /**
      * @param args the command line arguments
