@@ -28,7 +28,7 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
     Connection conexion;
     int idjuego = 3;
     int derrotas = 1;
-    int victorias =1;
+    int victorias =0;
     /**
      * Creates new form ventana
      */
@@ -61,8 +61,8 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
                     getConnection("jdbc:mysql://"
                     + "localhost/gamerzone","root","");
             PreparedStatement consulta = conexion.prepareStatement(""
-                    + "SELECT * FROM rankings a INNER JOIN  usuarios b ON a.idusuario = b.idusuario "
-                    + "WHERE a.idusuario=?");
+                    + "SELECT * FROM usuarios "
+                    + "WHERE idusuario=?");
             consulta.setInt(1, configuracion.idusuario);
             ResultSet rs = consulta.executeQuery();            
             
@@ -286,11 +286,14 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
     public void registrar_derrota(){
         try{            
             PreparedStatement consulta = conexion.prepareStatement(""
-            + "INSERT INTO rankings(idusuario,idjuego,derrotas,fecha)"
-            + "VALUES(?,?,?,NOW())");
+            + "INSERT INTO rankings(idusuario,gamertag,idjuego,victorias,derrotas,fecha)"
+            + "VALUES(?,?,?,?,?,NOW())");
             consulta.setInt(1,configuracion.idusuario);
-            consulta.setInt(2,idjuego);
-            consulta.setInt(3, derrotas);
+            consulta.setString(2,lblGamer.getText());
+            consulta.setInt(3,idjuego);
+            consulta.setInt(4,victorias);
+            consulta.setInt(5, derrotas);
+            consulta.executeUpdate();         
             
             
          }catch(Exception e){
@@ -306,8 +309,17 @@ public class frmBuscaminas extends javax.swing.JFrame implements ActionListener{
                     
                     if(bombas[fila][columna]==1){
                         JOptionPane.showMessageDialog(this, "Has perdido!!");
-                        nuevoJuego();
+                        int derrotas = 1;
+                        int victorias =0;
                         registrar_derrota();
+                        nuevoJuego();
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Felicidades!!");
+                        int derrotas = 0;
+                        int victorias =1;
+                        registrar_derrota();
+                        nuevoJuego();
                     }
                 }               
             }

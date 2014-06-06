@@ -136,7 +136,7 @@ public class MDIprincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuRegistroActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       frmRanking frmRanking1 = new frmRanking();
+       frmRankings frmRanking1 = new frmRankings();
        frmRanking1.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed

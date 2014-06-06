@@ -2,14 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego.del.gato;
+package tictactoe;
 
+import configuracion.configuracion;
 import gamezone.frmSeleccion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -22,6 +25,9 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     JButton[][] botones = new JButton[3][3];
     int turno = 1;
     Connection conexion;
+    int idjuego = 1;
+    int derrotas = 0;
+    int victorias = 0;
 
     /**
      * Creates new form Ventana
@@ -32,6 +38,7 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         panelTablero.setOpaque(false);
         crearTablero();
         inicializaBaseDeDatos();
+       
         
     }
     public void crearTablero(){
@@ -50,6 +57,15 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
             conexion = DriverManager.
                     getConnection("jdbc:mysql://"
                     + "localhost/gamerzone","root","");
+            PreparedStatement consulta = conexion.prepareStatement(""
+                    + "SELECT * FROM usuarios "
+                    + "WHERE idusuario=?");
+            consulta.setInt(1, configuracion.idusuario);
+            ResultSet rs = consulta.executeQuery();            
+            
+            rs.next();
+            lblGamer.setText(rs.getString("gamertag"));
+            
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -64,6 +80,7 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     private void initComponents() {
 
         lblJugador = new javax.swing.JLabel();
+        lblGamer = new javax.swing.JLabel();
         lblTurno = new javax.swing.JLabel();
         panelTablero = new javax.swing.JPanel();
         btnReinicio = new javax.swing.JButton();
@@ -75,11 +92,15 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         setBackground(new java.awt.Color(0, 0, 0));
         getContentPane().setLayout(null);
 
-        lblJugador.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblJugador.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblJugador.setForeground(new java.awt.Color(255, 0, 0));
-        lblJugador.setText("Jugador 1");
         getContentPane().add(lblJugador);
         lblJugador.setBounds(130, 10, 130, 40);
+
+        lblGamer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblGamer.setForeground(new java.awt.Color(51, 51, 255));
+        getContentPane().add(lblGamer);
+        lblGamer.setBounds(130, 10, 260, 40);
 
         lblTurno.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTurno.setForeground(new java.awt.Color(0, 153, 153));
@@ -149,15 +170,15 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     }//GEN-LAST:event_btnReinicioActionPerformed
 
     private void btnReinicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReinicioMouseClicked
-        botones[0][0].setText(null);
-        botones[0][1].setText(null);
-        botones[0][2].setText(null);
-        botones[1][0].setText(null);
-        botones[1][1].setText(null);
-        botones[1][2].setText(null);
-        botones[2][0].setText(null);
-        botones[2][1].setText(null);
-        botones[2][2].setText(null);
+        botones[0][0].setText("");
+        botones[0][1].setText("");
+        botones[0][2].setText("");
+        botones[1][0].setText("");
+        botones[1][1].setText("");
+        botones[1][2].setText("");
+        botones[2][0].setText("");
+        botones[2][1].setText("");
+        botones[2][2].setText("");
         botones[0][0].setEnabled(true);
         botones[0][1].setEnabled(true);
         botones[0][2].setEnabled(true);
@@ -167,8 +188,15 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         botones[2][0].setEnabled(true);
         botones[2][1].setEnabled(true);
         botones[2][2].setEnabled(true);
-        
-        
+        botones[0][0].setIcon(new ImageIcon(""));
+        botones[0][1].setIcon(new ImageIcon(""));
+        botones[0][2].setIcon(new ImageIcon(""));
+        botones[1][0].setIcon(new ImageIcon(""));     
+        botones[1][1].setIcon(new ImageIcon(""));
+        botones[1][2].setIcon(new ImageIcon(""));
+        botones[2][0].setIcon(new ImageIcon(""));
+        botones[2][1].setIcon(new ImageIcon(""));
+        botones[2][2].setIcon(new ImageIcon(""));        
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReinicioMouseClicked
 
@@ -216,6 +244,7 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReinicio;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel lblGamer;
     private javax.swing.JLabel lblJugador;
     private javax.swing.JLabel lblTurno;
     private javax.swing.JLabel lblfondo;
@@ -227,14 +256,26 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton boton = (JButton) e.getSource();
+        
         if(turno==1){
             boton.setIcon(new ImageIcon("C:\\Users\\miguel\\Documents\\GitHub\\Miguel\\CombateNaval\\src\\imagenes\\gamerzone\\O.jpg"));
+            boton.setText("0");
             turno=0;
+            lblJugador.setVisible(false);
+            lblGamer.setVisible(true);
             lblJugador.setText("Invitado");
+            victorias = 0;
+            derrotas = 1;
+            registrar();
         }else{
             boton.setIcon(new ImageIcon("C:\\Users\\miguel\\Documents\\GitHub\\Miguel\\CombateNaval\\src\\imagenes\\gamerzone\\X.jpg"));
+            boton.setText("X");
             turno=1;
-            lblJugador.setText("");
+            lblGamer.setVisible(false);
+            lblJugador.setVisible(true);
+            victorias = 1;
+            derrotas = 0;
+            registrar();
             
         }
         
@@ -302,6 +343,25 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
        }   
        
     }
+     public void registrar(){
+        try{ 
+            
+            PreparedStatement consulta = conexion.prepareStatement(""
+            + "INSERT INTO rankings(idusuario,gamertag,idjuego,victorias,derrotas,fecha)"
+            + "VALUES(?,?,?,?,?,NOW())");
+            consulta.setInt(1,configuracion.idusuario);
+            consulta.setString(2,lblGamer.getText());
+            consulta.setInt(3,idjuego);
+            consulta.setInt(4,victorias);
+            consulta.setInt(5,derrotas);
+            consulta.executeUpdate();   
+            
+            
+            
+         }catch(Exception e){
+           e.printStackTrace();  
+          }
+    }
     void juegoTerminado(){
         botones[0][0].setEnabled(false);
         botones[0][1].setEnabled(false);
@@ -314,9 +374,11 @@ public class frmTic extends javax.swing.JFrame implements  ActionListener{
         botones[2][2].setEnabled(false);
         ImageIcon icon = new ImageIcon("src/Imagenes/carita.jpg");
         if(turno==1){
-            JOptionPane.showMessageDialog(this, "Jugador 1 gano","Juego Terminado",JOptionPane.INFORMATION_MESSAGE,icon);
+            JOptionPane.showMessageDialog(this,lblGamer.getText() + " " + "gano","Juego Terminado",JOptionPane.INFORMATION_MESSAGE,icon);
+            
         }else{
-            JOptionPane.showMessageDialog(this, "Jugador 2 gano","Juego Terminado",JOptionPane.INFORMATION_MESSAGE,icon);
+            JOptionPane.showMessageDialog(this, "Invitado gano","Juego Terminado",JOptionPane.INFORMATION_MESSAGE,icon);
+            
         }
     }
 }

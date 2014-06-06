@@ -130,7 +130,7 @@ public class frmSeleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_btngatoActionPerformed
 
     private void btnRankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRankActionPerformed
-    frmRanking frmRanking1 = new frmRanking();
+    frmRankings frmRanking1 = new frmRankings();
     frmRanking1.setVisible(true);
     this.dispose();
 // TODO add your handling code here:

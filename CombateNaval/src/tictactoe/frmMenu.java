@@ -7,7 +7,7 @@
 package tictactoe;
 
 import javax.swing.JOptionPane;
-import juego.del.gato.frmTic;
+import tictactoe.frmTic;
 
 /**
  *
